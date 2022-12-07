@@ -8,7 +8,7 @@ jobs:
     
     steps: 
 
-    - uses: actions/checkout@main
+    - uses: actions/checkout@master
 
     - name: Run Bicep linter
       run: az bicep build --file ./main.bicep
