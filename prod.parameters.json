@@ -3,13 +3,13 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "appServiceAppName": {
-            "value": "dyannarivera-app-prod-bicep"
+            "value": "drivera-app-prod-bicep"
         },
         "appServicePlanName": {
-            "value": "dyannarivera-app-prod-bicep"
+            "value": "drivera-app-prod-bicep"
         },
         "storageAccountName": {
-            "value": "dyannariveraprodstorage"
+            "value": "driveraprodstorage"
         }
     }
 }
