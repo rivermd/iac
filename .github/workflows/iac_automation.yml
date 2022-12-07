@@ -1,0 +1,66 @@
+name: Azure Bicep Infra 
+
+on: [push, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps: 
+
+    - uses: actions/checkout@main
+
+    - name: Run Bicep linter
+      run: az bicep build --file./main.bicep
+
+  deploy-dev:
+    if: github-ref == '/refs/heads/dev'
+
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Development'
+
+    steps:
+    
+    - uses: actions/checkout@master
+
+    - uses: azure/login@v1
+      with: 
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy to Dev
+      uses: azure/arm-deploy@v1
+      with:
+        subscriptionId: e0b9cada-61bc-4b5a-bd7a-52c606726b3b
+        resourceGroupName: jseijas_students_1
+        template: ./main.bicep
+        parameters: dev.parameters.json
+        failOnStdErr: false
+
+  deploy-prod:
+    if: github-ref == 'refs/heads/main'
+
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Production'
+    steps:
+    
+    - uses: actions/checkout@master
+    
+    - uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy to Prod
+      uses: azure/arm-deploy@v1
+      with: 
+        subscriptionId: e0b9cada-61bc-4b5a-bd7a-52c606726b3b
+        resourceGroupName: jseijas_students_1
+        template: ./main.bicep
+        parameters: prod.parameters.json
+        failOnStdErr: false
+    
+    
+
