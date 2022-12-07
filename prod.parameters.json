@@ -3,10 +3,10 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "appServiceAppName": {
-            "value": "drivera-app-prod-bicep"
+            "value": "drivera-app-prod"
         },
         "appServicePlanName": {
-            "value": "drivera-app-prod-bicep"
+            "value": "drivera-app-prod"
         },
         "storageAccountName": {
             "value": "driveraprodstorage"
