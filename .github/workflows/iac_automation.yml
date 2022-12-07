@@ -1,35 +1,38 @@
-name: Azure Bicep Infra 
+name: Azure Bicep Infra
 
 on: [push, workflow_dispatch]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    
-    steps: 
+    steps:
 
+      # Checkout code
     - uses: actions/checkout@master
 
+      # Lint Bicep code 
     - name: Run Bicep linter
       run: az bicep build --file ./main.bicep
 
   deploy-dev:
-    if: github.ref == '/refs/heads/dev'
-
+    if: github.ref == 'refs/heads/dev'
     runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Development'
 
     steps:
-    
-    - uses: actions/checkout@master
 
+      # Checkout code
+    - uses: actions/checkout@master
+    
+      # Log into Azure
     - uses: azure/login@v1
-      with: 
+      with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Deploy to Dev
+      # Deploy Bicep file
+    - name: deploy
       uses: azure/arm-deploy@v1
       with:
         subscriptionId: e0b9cada-61bc-4b5a-bd7a-52c606726b3b
@@ -40,27 +43,28 @@ jobs:
 
   deploy-prod:
     if: github.ref == 'refs/heads/master'
-
     runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
+
     steps:
-    
+
+      # Checkout code
     - uses: actions/checkout@master
-    
+
+      # Log into Azure
     - uses: azure/login@v1
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
-    - name: Deploy to Prod
+      # Deploy Bicep file
+    - name: deploy
       uses: azure/arm-deploy@v1
-      with: 
+      with:
         subscriptionId: e0b9cada-61bc-4b5a-bd7a-52c606726b3b
         resourceGroupName: jseijas_students_1
         template: ./main.bicep
         parameters: prod.parameters.json
         failOnStdErr: false
-    
-    
 
