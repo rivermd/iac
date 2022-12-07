@@ -11,7 +11,7 @@ jobs:
     - uses: actions/checkout@main
 
     - name: Run Bicep linter
-      run: az bicep build --file./main.bicep
+      run: az bicep build --file ./main.bicep
 
   deploy-dev:
     if: github.ref == '/refs/heads/dev'
