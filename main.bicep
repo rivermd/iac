@@ -1,15 +1,15 @@
 @sys.description('The Web App name.')
 @minLength(3)
 @maxLength(24)
-param appServiceAppName string = 'dyannarivera-app-bicep'
+param appServiceAppName string = 'drivera-app-bicep'
 @sys.description('The App Service Plan name.')
 @minLength(3)
 @maxLength(24)
-param appServicePlanName string = 'dyannarivera-app-bicep'
+param appServicePlanName string = 'drivera-app-bicep'
 @sys.description('The Storage Account name.')
 @minLength(3)
 @maxLength(24)
-param storageAccountName string = 'dyannariverastorage'
+param storageAccountName string = 'driverastorage'
 @allowed([
   'nonprod'
   'prod'
